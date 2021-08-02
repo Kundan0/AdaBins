@@ -29,7 +29,7 @@ print(predicted_depth.size())
 
 plt.imshow(predicted_depth.squeeze(0).squeeze(0).detach(),cmap='gray')
 #plt.imshow(image.permute(1,2,0),cmap='brg')
-plt.savefig('result1.png')
+plt.savefig('../drive/MyDrive/Depth/001.png')
 plt.show()
 
 
