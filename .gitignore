@@ -1,10 +1,11 @@
 *.pyc
 __pycache__/
 .env
+.vscode
 .idea/
 predictions_nyu/
 predictions_kitti/
 wandb/
 checkpoints/
-pretrained/
+
 

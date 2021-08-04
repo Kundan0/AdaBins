@@ -74,9 +74,6 @@ print(depth.size())
 
 
 
-plt.imshow(predicted_depth.squeeze(0).squeeze(0).detach(),cmap='gray')
-#plt.imshow(image.permute(1,2,0),cmap='brg')
-plt.savefig('result1.png')
-plt.show()
+show_batch(depth)
 
 
