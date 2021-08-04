@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np 
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor
-from torch.utiils.data.dataloader import DataLoader
+from torch.utils.data.dataloader import DataLoader
 MIN_DEPTH = 1e-3
 MAX_DEPTH_NYU = 10
 MAX_DEPTH_KITTI = 80
