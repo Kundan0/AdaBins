@@ -3,7 +3,7 @@ import model_io
 from PIL import Image
 import torch
 
-import matplotlib.pyplot as plt
+from torchvision.utils import save_image
 import numpy as np 
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor
@@ -36,7 +36,7 @@ def to_device(data, device):
         return [to_device(x, device) for x in data]
     return data.to(device, non_blocking=True)
 
-class DeviceDataLoader():
+class DeviceDataLoader(DataLoader):
     """Wrap a dataloader to move data to a device"""
     def __init__(self, dl, device):
         self.dl = dl
@@ -57,23 +57,18 @@ pretrained_path = "../drive/MyDrive/pretrained/AdaBins_kitti.pt"
 model, _, _ = model_io.load_checkpoint(pretrained_path, model)
 
 test_dataset=ImageFolder("../drive/MyDrive/formattedvelocity",transform=ToTensor())
-test_dl=DataLoader(test_dataset,4,shuffle=False,num_workers=2,pin_memory=True)
-test_dl_cuda=DeviceDataLoader(test_dl,device)
+test_dl=DataLoader(test_dataset,40,shuffle=False,num_workers=2,pin_memory=True)
+test_dl=DeviceDataLoader(test_dl,device)
 model.to(device)
 
-for images,labels in  test_dl_cuda:
-    print(images.size())
-    _,depth=model(images)
-    break
-
-for i,(images,labels) in  enumerate(test_dl):
-    sample_fname,_=test_dl.dataset.samples[i]
-    break
-
-print(depth.size())
 
 
+for (images,folder_name) in  (test_dl):
+  _,depth=model(images)
+  for i,images in enumerate(depth):
+    save_image("../drive/MyDrive/depth/"+folder_name+"/"+str(i)+".png")
 
-show_batch(depth)
+
+  break
 
 
