@@ -63,12 +63,12 @@ model.to(device)
 
 
 
-for (images,folder_name) in  (test_dl):
+for j,(images,folder_name) in  enumerate(test_dl):
   _,depth=model(images)
-  print('folder name'+folder_name)
+  print('folder name'+str(folder_name[j].item()))
   for i,images in enumerate(depth):
     print("saving image "+str(i))
-    save_image("../drive/MyDrive/depth/"+folder_name+"/"+str(i)+".png")
+    save_image("../drive/MyDrive/depth/"+str(folder_name.item())+"/"+str(i)+".png")
 
 
   
