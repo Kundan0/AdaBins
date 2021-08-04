@@ -57,7 +57,7 @@ pretrained_path = "../drive/MyDrive/pretrained/AdaBins_kitti.pt"
 model, _, _ = model_io.load_checkpoint(pretrained_path, model)
 
 test_dataset=ImageFolder("../drive/MyDrive/formattedvelocity",transform=ToTensor())
-test_dl=DataLoader(test_dataset,40,shuffle=False,num_workers=2,pin_memory=True)
+test_dl=DataLoader(test_dataset,2,shuffle=False,num_workers=2,pin_memory=True)
 test_dl=DeviceDataLoader(test_dl,device)
 model.to(device)
 
@@ -65,10 +65,12 @@ model.to(device)
 
 for (images,folder_name) in  (test_dl):
   _,depth=model(images)
+  print('folder name'+folder_name)
   for i,images in enumerate(depth):
+    print("saving image "+str(i))
     save_image("../drive/MyDrive/depth/"+folder_name+"/"+str(i)+".png")
 
 
-  break
+  
 
 
