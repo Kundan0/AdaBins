@@ -2,7 +2,7 @@ from models import UnetAdaptiveBins
 import model_io
 from PIL import Image
 import torch
-
+import os
 from torchvision.utils import save_image
 import numpy as np 
 from torchvision.datasets import ImageFolder
@@ -63,13 +63,13 @@ model.to(device)
 
 
 
-for j,(images,folder_name) in  enumerate(test_dl):
+for (images,folder_name) in (test_dl):
   _,depth=model(images)
-  print('folder name'+str(folder_name[j].item()))
-  for i,images in enumerate(depth):
-    print("saving image "+str(i))
-    save_image("../drive/MyDrive/depth/"+str(folder_name.item())+"/"+str(i)+".png")
-
+  
+  for i,image in enumerate(depth):
+   
+    save_image(image,"../drive/MyDrive/Depth/1"+"/"+str(i)+".png")
+  
 
   
 
