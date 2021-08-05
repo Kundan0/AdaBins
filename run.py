@@ -21,8 +21,11 @@ unloader = transform.ToPILImage()
 loader = transform.Compose([transform.ToTensor()])  
 
 def image_loader(image_name,device):
+    size=640, 480
     image = Image.open(image_name).convert('RGB')
+    image = image.resize(size, Image.ANTIALIAS)
     image = loader(image).unsqueeze(0)
+    
     return image.to(device, torch.float)
 
 
@@ -41,9 +44,9 @@ model = UnetAdaptiveBins.build(n_bins=N_BINS, min_val=MIN_DEPTH, max_val=MAX_DEP
 pretrained_path = "../drive/MyDrive/pretrained/AdaBins_kitti.pt"
 model, _, _ = model_io.load_checkpoint(pretrained_path, model)
 model.to(device)
-dataset_folder='../drive/MyDrive/formattedvelocity/1/'
+dataset_folder='../drive/MyDrive/formattedvelocity/2/imgs/'
 
-save_folder='/content/drive/MyDrive/Depth/1'
+save_folder='/content/drive/MyDrive/Depth/2'
 
 # for j in range(1,1075):
 #   dataset_folder=dataset_folder+str(j)
