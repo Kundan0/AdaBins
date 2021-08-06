@@ -47,19 +47,17 @@ model.to(device)
 dataset_folder='../gdrive/MyDrive/dataflow/'
 sub_directories=os.listdir(dataset_folder)
 save_folder='/content/gdrive/MyDrive/Depth'
+save_folder_directories=os.listdir(save_folder)
+
 if(not os.path.isdir(save_folder)):
   print("no save folder ")
   os.mkdir(save_folder)
 
 
 
-# for j in range(1,1075):
-#   dataset_folder=dataset_folder+str(j)
-#   save_folder=save_folder+str(j)
-#   
 
 for directories in sub_directories:
-  if not directories in ['712','713']:
+  if not directories in save_folder_directories:
 
     save_folder='/content/gdrive/MyDrive/Depth'
     dataset_folder='../gdrive/MyDrive/dataflow/'
@@ -84,6 +82,7 @@ for directories in sub_directories:
       
       mpimg.imsave(save_file_name,depth.detach().cpu())
       print('saved '+str(i))
+  
   
     
   
