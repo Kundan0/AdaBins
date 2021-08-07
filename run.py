@@ -52,14 +52,14 @@ divided_directories=os.listdir('../gdrive/MyDrive/dataflow/')
 
 
 #for divided_directory in divided_directories:
-divided_directory='961-' 
+divided_directory='1-200' 
 dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory
 sub_directories=os.listdir(dataset_folder)
 for directories in sub_directories:
   if not directories in save_folder_directories:
 
     
-    
+    print('Directory '+directories)
     dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory+"/"+directories+'/imgs/'
     save_folder='/content/gdrive/MyDrive/Depth'+"/"+directories
     if(not os.path.isdir(save_folder)):
@@ -67,7 +67,7 @@ for directories in sub_directories:
         os.mkdir(save_folder)
 
     for i in range(1,41):
-      print("calculating for "+str(i))
+      print("file "+str(i))
       
       
       
