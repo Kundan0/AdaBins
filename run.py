@@ -44,46 +44,43 @@ model = UnetAdaptiveBins.build(n_bins=N_BINS, min_val=MIN_DEPTH, max_val=MAX_DEP
 pretrained_path = "../gdrive/MyDrive/pretrained/AdaBins_kitti.pt"
 model, _, _ = model_io.load_checkpoint(pretrained_path, model)
 model.to(device)
-dataset_folder='../gdrive/MyDrive/dataflow/'
-sub_directories=os.listdir(dataset_folder)
-save_folder='/content/gdrive/MyDrive/Depth'
-save_folder_directories=os.listdir(save_folder)
 
-if(not os.path.isdir(save_folder)):
-  print("no save folder ")
-  os.mkdir(save_folder)
+
+save_folder_directories=os.listdir('/content/gdrive/MyDrive/Depth')
+divided_directories=os.listdir('../gdrive/MyDrive/dataflow/')
 
 
 
+for divided_directory in divided_directories:
+  dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory
+  sub_directories=os.listdir(dataset_folder)
+  for directories in sub_directories:
+    if not directories in save_folder_directories:
 
-for directories in sub_directories:
-  if not directories in save_folder_directories:
-
-    save_folder='/content/gdrive/MyDrive/Depth'
-    dataset_folder='../gdrive/MyDrive/dataflow/'
-
-    dataset_folder=dataset_folder+directories+'/imgs/'
-    save_folder=save_folder+"/"+directories
-    if(not os.path.isdir(save_folder)):
-        print("no save sub folder ")
-        os.mkdir(save_folder)
-
-    for i in range(1,41):
-      print("calculating for "+str(i))
       
       
-      
-      save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
-      file_name=dataset_folder+str(i).zfill(3)+'.jpg'
-      image=image_loader(file_name,device)
-      _,depth=model(image)
-      
-      depth=depth.squeeze(0).squeeze(0)
-      
-      mpimg.imsave(save_file_name,depth.detach().cpu())
-      print('saved '+str(i))
-  
-  
+      dataset_folder='../gdrive/MyDrive/dataflow/'+directories+'/imgs/'
+      save_folder='/content/gdrive/MyDrive/Depth'+"/"+directories
+      if(not os.path.isdir(save_folder)):
+          print("no save sub folder ")
+          os.mkdir(save_folder)
+
+      for i in range(1,41):
+        print("calculating for "+str(i))
+        
+        
+        
+        save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
+        file_name=dataset_folder+str(i).zfill(3)+'.jpg'
+        image=image_loader(file_name,device)
+        _,depth=model(image)
+        
+        depth=depth.squeeze(0).squeeze(0)
+        
+        mpimg.imsave(save_file_name,depth.detach().cpu())
+        print('saved '+str(i))
+    
+    
     
   
 
