@@ -51,35 +51,36 @@ divided_directories=os.listdir('../gdrive/MyDrive/dataflow/')
 
 
 
-for divided_directory in divided_directories:
-  dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory
-  sub_directories=os.listdir(dataset_folder)
-  for directories in sub_directories:
-    if not directories in save_folder_directories:
+#for divided_directory in divided_directories:
+divided_directory='961-' 
+dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory
+sub_directories=os.listdir(dataset_folder)
+for directories in sub_directories:
+  if not directories in save_folder_directories:
 
-      
-      
-      dataset_folder='../gdrive/MyDrive/dataflow/'+directories+'/imgs/'
-      save_folder='/content/gdrive/MyDrive/Depth'+"/"+directories
-      if(not os.path.isdir(save_folder)):
-          print("no save sub folder ")
-          os.mkdir(save_folder)
-
-      for i in range(1,41):
-        print("calculating for "+str(i))
-        
-        
-        
-        save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
-        file_name=dataset_folder+str(i).zfill(3)+'.jpg'
-        image=image_loader(file_name,device)
-        _,depth=model(image)
-        
-        depth=depth.squeeze(0).squeeze(0)
-        
-        mpimg.imsave(save_file_name,depth.detach().cpu())
-        print('saved '+str(i))
     
+    
+    dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory+"/"+directories+'/imgs/'
+    save_folder='/content/gdrive/MyDrive/Depth'+"/"+directories
+    if(not os.path.isdir(save_folder)):
+        print("no save sub folder ")
+        os.mkdir(save_folder)
+
+    for i in range(1,41):
+      print("calculating for "+str(i))
+      
+      
+      
+      save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
+      file_name=dataset_folder+str(i).zfill(3)+'.jpg'
+      image=image_loader(file_name,device)
+      _,depth=model(image)
+      
+      depth=depth.squeeze(0).squeeze(0)
+      
+      mpimg.imsave(save_file_name,depth.detach().cpu())
+      print('saved '+str(i))
+  
     
     
   
