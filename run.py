@@ -56,8 +56,9 @@ for divided_directory in divided_directories:
 
   if not divided_directory in save_folder_directories:
     print("directory number ",divided_directory)
-    save_folder='/content/gdrive/MyDrive/Depth2/All/'+divided_directory+'/imgs'
+    save_folder='/content/gdrive/MyDrive/Depth2/All/'+divided_directory
     os.mkdir(save_folder)
+    os.mkdir(save_folder+'/imgs')
     dataset_folder='../gdrive/MyDrive/dataflow/All'+divided_directory+'/imgs'
     shutil.copyfile('../gdrive/MyDrive/dataflow/All'+divided_directory+'annotations.json','/content/gdrive/MyDrive/Depth2/All/'+divided_directory+'annotations.json')
     images=os.listdir(dataset_folder)
@@ -65,9 +66,10 @@ for divided_directory in divided_directories:
       
 
       complete_image_name=dataset_folder+'/'+image_name
-      print(complete_image_name)
+      print("dataset image name",complete_image_name)
       #save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
-      save_file_name=save_folder+"/"+image_name
+      save_file_name=save_folder+"/imgs/"+image_name
+      print("save image name",save_file_name)
       #file_name=dataset_folder+str(i).zfill(3)+'.jpg'
       image=image_loader(complete_image_name,device)
       _,depth=model(image)
