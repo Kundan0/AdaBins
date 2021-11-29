@@ -13,7 +13,7 @@ import matplotlib.image as mpimg
 MIN_DEPTH = 1e-3
 MAX_DEPTH_NYU = 10
 MAX_DEPTH_KITTI = 80
-
+import shutil
 N_BINS = 256 
 
 from torchvision.utils import make_grid
@@ -46,40 +46,36 @@ model, _, _ = model_io.load_checkpoint(pretrained_path, model)
 model.to(device)
 
 
-save_folder_directories=os.listdir('/content/gdrive/MyDrive/Depth')
-divided_directories=os.listdir('../gdrive/MyDrive/dataflow/')
 
+divided_directories=os.listdir('../gdrive/MyDrive/dataflow/All')
+os.mkdir('/content/gdrive/MyDrive/Depth2')
+os.mkdir('/content/gdrive/MyDrive/Depth2/All')
 
+for divided_directory in divided_directories:
+  save_folder_directories=os.listdir('/content/gdrive/MyDrive/Depth2/All')
 
-#for divided_directory in divided_directories:
-divided_directory='1-200' 
-dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory
-sub_directories=os.listdir(dataset_folder)
-for directories in sub_directories:
-  if not directories in save_folder_directories:
-
-    
-    print('Directory '+directories)
-    dataset_folder='../gdrive/MyDrive/dataflow/'+divided_directory+"/"+directories+'/imgs/'
-    save_folder='/content/gdrive/MyDrive/Depth'+"/"+directories
-    if(not os.path.isdir(save_folder)):
-        print("no save sub folder ")
-        os.mkdir(save_folder)
-
-    for i in range(1,41):
-      print("file "+str(i))
+  if not divided_directory in save_folder_directories:
+    print("directory number ",divided_directory)
+    save_folder='/content/gdrive/MyDrive/Depth2/All/'+divided_directory+'/imgs'
+    os.mkdir(save_folder)
+    dataset_folder='../gdrive/MyDrive/dataflow/All'+divided_directory+'/imgs'
+    shutil.copyfile('../gdrive/MyDrive/dataflow/All'+divided_directory+'annotations.json','/content/gdrive/MyDrive/Depth2/All/'+divided_directory+'annotations.json')
+    images=os.listdir(dataset_folder)
+    for image_name in images:
       
-      
-      
-      save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
-      file_name=dataset_folder+str(i).zfill(3)+'.jpg'
-      image=image_loader(file_name,device)
+
+      complete_image_name=dataset_folder+'/'+image_name
+      print(complete_image_name)
+      #save_file_name=save_folder+"/"+str(i).zfill(3)+'.png'
+      save_file_name=save_folder+"/"+image_name
+      #file_name=dataset_folder+str(i).zfill(3)+'.jpg'
+      image=image_loader(complete_image_name,device)
       _,depth=model(image)
       
       depth=depth.squeeze(0).squeeze(0)
       
-      mpimg.imsave(save_file_name,depth.detach().cpu())
-      print('saved '+str(i))
+      mpimg.imsave(save_file_name,depth.detach().cpu(),cmap='gray')
+      print('saved '+image_name)
   
     
     
