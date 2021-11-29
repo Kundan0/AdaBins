@@ -59,7 +59,7 @@ for divided_directory in divided_directories:
     save_folder='/content/gdrive/MyDrive/Depth2/All/'+divided_directory
     os.mkdir(save_folder)
     os.mkdir(save_folder+'/imgs')
-    dataset_folder='../gdrive/MyDrive/dataflow/All'+divided_directory+'/imgs'
+    dataset_folder='../gdrive/MyDrive/dataflow/All/'+divided_directory+'/imgs'
     shutil.copyfile('../gdrive/MyDrive/dataflow/All/'+divided_directory+'/annotation.json','/content/gdrive/MyDrive/Depth2/All/'+divided_directory+'/annotation.json')
     images=os.listdir(dataset_folder)
     for image_name in images:
