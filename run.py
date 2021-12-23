@@ -48,7 +48,7 @@ model.to(device)
 
 
 #divided_directories=os.listdir('../gdrive/MyDrive/dataflow/All')
-divided_directories=[str(item) for item in range(101,201)]
+divided_directories=["326","623","650","924"]
 # os.mkdir('/content/gdrive/MyDrive/Depth2')
 # os.mkdir('/content/gdrive/MyDrive/Depth2/All')
 
